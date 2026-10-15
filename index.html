@@ -3,160 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Seating Plan | Alex & Jessica</title>
+    <title>Zhi Yu &amp; Mimi &bull; Wedding Seating Plan</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #faf9f6;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #faf8f5;
             color: #2c2c2c;
         }
         .font-serif {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        /* Elegant Tulip Watercolor Header Background */
+        .tulip-header-bg {
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 2rem;
+            overflow: hidden;
+        }
+        .tulip-header-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(250, 248, 245, 0.88), rgba(250, 248, 245, 0.95));
+        }
+        .tulip-header-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes pulse-highlight {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); background-color: #fff1f2; }
+            70% { box-shadow: 0 0 0 12px rgba(225, 29, 72, 0); background-color: #fff1f2; }
+            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); background-color: #ffffff; }
+        }
+        .highlight-card {
+            animation: pulse-highlight 2.5s ease-in-out;
+            border-color: #f43f5e !important;
+        }
+        @keyframes seat-flash {
+            0% { background-color: #ffe4e6; color: #881337; font-weight: 600; }
+            100% { background-color: transparent; }
+        }
+        .highlight-seat {
+            animation: seat-flash 3s ease-in-out;
+            border-radius: 6px;
+        }
+        /* Smooth color-only hover (no aggressive movement/scaling) */
+        .map-table-btn {
+            cursor: pointer;
+        }
+        .map-table-btn circle.table-body {
+            transition: fill 0.25s ease, stroke 0.25s ease;
+            fill: #f5f0e6;
+            stroke: #a8a29e;
+            stroke-width: 2px;
+        }
+        .map-table-btn text {
+            transition: fill 0.25s ease;
+            fill: #292524;
+        }
+        .map-table-btn:hover circle.table-body {
+            fill: #ffe4e6 !important;
+            stroke: #e11d48 !important;
+        }
+        .map-table-btn:hover text {
+            fill: #9f1239 !important;
+        }
+        
+        /* Active Pulse Effect when redirected from guest name */
+        @keyframes map-active-pulse {
+            0% { filter: drop-shadow(0 0 0px rgba(225, 29, 72, 0.9)); }
+            50% { filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.9)); }
+            100% { filter: drop-shadow(0 0 0px rgba(225, 29, 72, 0.9)); }
+        }
+        .map-table-active circle.table-body {
+            fill: #e11d48 !important;
+            stroke: #881337 !important;
+            stroke-width: 3px;
+        }
+        .map-table-active text {
+            fill: #ffffff !important;
+            font-weight: bold;
+        }
+        .map-table-active {
+            animation: map-active-pulse 1.2s ease-in-out 3;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-rose-100 selection:text-rose-900">
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-4xl mx-auto px-4 py-12 w-full flex-grow">
+    <main class="max-w-5xl mx-auto px-4 py-8 w-full flex-grow">
         
-        <!-- HEADER SECTION -->
-        <header class="text-center mb-12">
-            <h1 class="font-serif text-4xl sm:text-5xl font-normal tracking-wide text-stone-800">
-                Alex
-            </h1>
-            <div class="text-rose-400 font-serif italic text-lg my-2">and</div>
-            <h1 class="font-serif text-4xl sm:text-5xl font-normal tracking-wide text-stone-800">
-                Jessica
-            </h1>
-            
-            <div class="mt-4 inline-block border-b border-t border-stone-300 py-1 px-6 text-xs uppercase tracking-widest text-stone-500 font-medium">
-                Wedding Seating Plan &bull; October 18, 2026
-            </div>
-
-            <!-- QUICK SEARCH FOR GUESTS -->
-            <div class="mt-8 max-w-md mx-auto">
-                <div class="relative">
-                    <input type="text" id="guestSearch" placeholder="Search your name to find your table..." 
-                        class="w-full pl-10 pr-4 py-3 bg-white border border-stone-200 rounded-full text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition">
-                    <span class="absolute left-3.5 top-3.5 text-stone-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </span>
+        <!-- REDESIGNED TULIP HEADER SECTION -->
+        <header class="text-center mb-10 p-8 sm:p-12 tulip-header-bg shadow-sm border border-stone-200/60">
+            <div class="tulip-header-content">
+                <p class="text-xs uppercase tracking-[0.3em] text-rose-600/90 font-medium mb-3">
+                    Wedding Participant List & Seating Directory
+                </p>
+                
+                <div class="inline-block relative">
+                    <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-normal tracking-wide text-stone-900 leading-none">
+                        Zhi Yu
+                    </h1>
+                    <div class="font-serif italic text-rose-400 text-2xl sm:text-3xl my-1 font-light">
+                        &amp;
+                    </div>
+                    <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-normal tracking-wide text-stone-900 leading-none">
+                        Mimi
+                    </h1>
                 </div>
-                <div id="searchResult" class="mt-3 text-sm text-rose-700 font-medium min-h-[24px]"></div>
+
+                <!-- Ornamental Divider -->
+                <div class="flex items-center justify-center my-5">
+                    <div class="h-[1px] w-16 bg-stone-300"></div>
+                    <div class="mx-3 text-rose-400 text-sm">&#10084;</div>
+                    <div class="h-[1px] w-16 bg-stone-300"></div>
+                </div>
+
+                <div class="text-xs uppercase tracking-[0.2em] text-stone-500 font-light">
+                    W Factory &bull; 14 November 2026
+                </div>
+
+                <!-- QUICK SEARCH FOR GUESTS -->
+                <div class="mt-8 max-w-md mx-auto relative z-30">
+                    <div class="relative">
+                        <input type="text" id="guestSearch" autocomplete="off" placeholder="Type your name to find your table &amp; seat..." 
+                            class="w-full pl-11 pr-4 py-3.5 bg-white/90 backdrop-blur-sm border border-stone-200 rounded-full text-xs sm:text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition text-stone-800 placeholder-stone-400">
+                        <span class="absolute left-4 top-4 text-stone-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </span>
+                    </div>
+                    <!-- Search Results Dropdown -->
+                    <div id="searchResults" class="absolute left-0 right-0 mt-2 bg-white border border-stone-200 rounded-2xl shadow-xl max-h-64 overflow-y-auto hidden text-left p-2 space-y-1"></div>
+                </div>
             </div>
         </header>
 
         <!-- TABS NAVIGATION -->
         <div class="flex justify-center mb-8 border-b border-stone-200">
-            <button onclick="switchTab('seating')" id="tabSeating" class="pb-3 px-6 text-sm font-medium border-b-2 border-stone-800 text-stone-900 transition">
-                Guest Seating List
+            <button onclick="switchTab('seating')" id="tabSeating" class="pb-3 px-6 text-xs sm:text-sm font-medium tracking-wider uppercase border-b-2 border-stone-900 text-stone-900 transition">
+                Guest Seating List (21 Tables)
             </button>
-            <button onclick="switchTab('floorplan')" id="tabFloorplan" class="pb-3 px-6 text-sm font-medium border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition">
-                Venue Floor Plan
+            <button onclick="switchTab('floorplan')" id="tabFloorplan" class="pb-3 px-6 text-xs sm:text-sm font-medium tracking-wider uppercase border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition">
+                Venue Floor Plan Map
             </button>
         </div>
 
         <!-- TAB 1: SEATING PLAN -->
         <section id="seatingTab" class="space-y-6">
+            <p class="text-center text-xs text-stone-400 italic">💡 Click any guest name below to instantly locate their table on the venue floor plan map.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tablesContainer">
-                <!-- Tables will be dynamically loaded via JS -->
+                <!-- Tables dynamically loaded via JS -->
             </div>
         </section>
 
         <!-- TAB 2: FLOOR PLAN MAP -->
         <section id="floorplanTab" class="hidden space-y-6">
-            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm text-center">
-                <h3 class="font-serif text-2xl text-stone-800 mb-2">Grand Ballroom Layout</h3>
-                <p class="text-stone-500 text-sm mb-8">Click any table below to view guest details.</p>
+            <div class="bg-white p-4 sm:p-8 rounded-3xl border border-stone-200 shadow-sm text-center">
+                <h3 class="font-serif text-2xl text-stone-800 mb-1">Venue Layout</h3>
+                <p class="text-stone-500 text-xs mb-6">Tap any table circle to view guest seating.</p>
 
-                <!-- Visual Hall Grid -->
-                <div class="relative bg-stone-50 border-2 border-dashed border-stone-200 rounded-xl p-8 min-h-[400px] flex flex-col justify-between items-center">
-                    <!-- Stage -->
-                    <div class="w-1/2 bg-stone-800 text-stone-100 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest shadow-inner">
-                        Stage &amp; Sweetheart Table
-                    </div>
+                <!-- SVG FLOOR PLAN CANVAS -->
+                <div class="w-full overflow-x-auto bg-[#faf8f5] border border-stone-300 rounded-2xl p-2 sm:p-4 shadow-inner">
+                    <svg viewBox="0 0 580 820" class="w-full max-w-[580px] mx-auto h-auto font-sans select-none">
+                        <!-- Outer Venue Outline -->
+                        <rect x="20" y="20" width="540" height="780" fill="#fdfbf7" stroke="#333" stroke-width="4" rx="8" />
+                        
+                        <!-- Walkway Path -->
+                        <path d="M 285 760 L 285 580 L 285 480 L 285 380 L 230 250 L 200 180 L 50 180" fill="none" stroke="#f0ece6" stroke-width="52" stroke-linecap="square" stroke-linejoin="round" />
 
-                    <!-- Tables Layout -->
-                    <div class="grid grid-cols-3 gap-6 w-full max-w-lg my-12" id="floorPlanGrid">
-                        <!-- Floor plan nodes generated via JS -->
-                    </div>
+                        <!-- LED Screen Top Header -->
+                        <g>
+                            <rect x="150" y="28" width="280" height="18" fill="#1e293b" rx="3" />
+                            <text x="290" y="41" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" letter-spacing="2">LED SCREEN</text>
+                        </g>
 
-                    <div class="text-xs text-stone-400">Entrance &bull; Bar &bull; Dance Floor</div>
+                        <!-- Top Row Tables (19, 20, 21) -->
+                        <g id="map-table-19" onclick="jumpToTable(19)" class="map-table-btn">
+                            <circle cx="170" cy="110" r="26" class="table-body" />
+                            <text x="170" y="115" font-size="13" font-weight="bold" text-anchor="middle">19</text>
+                        </g>
+                        <g id="map-table-20" onclick="jumpToTable(20)" class="map-table-btn">
+                            <circle cx="290" cy="100" r="26" class="table-body" />
+                            <text x="290" y="105" font-size="13" font-weight="bold" text-anchor="middle">20</text>
+                        </g>
+                        <g id="map-table-21" onclick="jumpToTable(21)" class="map-table-btn">
+                            <circle cx="410" cy="110" r="26" class="table-body" />
+                            <text x="410" y="115" font-size="13" font-weight="bold" text-anchor="middle">21</text>
+                        </g>
+
+                        <!-- Upper Right Tables (17, 18, 15, 16) -->
+                        <g id="map-table-17" onclick="jumpToTable(17)" class="map-table-btn">
+                            <circle cx="360" cy="170" r="26" class="table-body" />
+                            <text x="360" y="175" font-size="13" font-weight="bold" text-anchor="middle">17</text>
+                        </g>
+                        <g id="map-table-18" onclick="jumpToTable(18)" class="map-table-btn">
+                            <circle cx="450" cy="175" r="26" class="table-body" />
+                            <text x="450" y="180" font-size="13" font-weight="bold" text-anchor="middle">18</text>
+                        </g>
+                        <g id="map-table-15" onclick="jumpToTable(15)" class="map-table-btn">
+                            <circle cx="395" cy="245" r="26" class="table-body" />
+                            <text x="395" y="250" font-size="13" font-weight="bold" text-anchor="middle">15</text>
+                        </g>
+                        <g id="map-table-16" onclick="jumpToTable(16)" class="map-table-btn">
+                            <circle cx="480" cy="250" r="26" class="table-body" />
+                            <text x="480" y="255" font-size="13" font-weight="bold" text-anchor="middle">16</text>
+                        </g>
+
+                        <!-- Right Wing Tables (14, 13, 12, 11) -->
+                        <g id="map-table-14" onclick="jumpToTable(14)" class="map-table-btn">
+                            <circle cx="435" cy="325" r="26" class="table-body" />
+                            <text x="435" y="330" font-size="13" font-weight="bold" text-anchor="middle">14</text>
+                        </g>
+                        <g id="map-table-13" onclick="jumpToTable(13)" class="map-table-btn">
+                            <circle cx="410" cy="405" r="26" class="table-body" />
+                            <text x="410" y="410" font-size="13" font-weight="bold" text-anchor="middle">13</text>
+                        </g>
+                        <g id="map-table-12" onclick="jumpToTable(12)" class="map-table-btn">
+                            <circle cx="390" cy="485" r="26" class="table-body" />
+                            <text x="390" y="490" font-size="13" font-weight="bold" text-anchor="middle">12</text>
+                        </g>
+                        <g id="map-table-11" onclick="jumpToTable(11)" class="map-table-btn">
+                            <circle cx="475" cy="550" r="26" class="table-body" />
+                            <text x="475" y="555" font-size="13" font-weight="bold" text-anchor="middle">11</text>
+                        </g>
+
+                        <!-- Right Lower / Side Tables (10, 9) -->
+                        <g id="map-table-10" onclick="jumpToTable(10)" class="map-table-btn">
+                            <circle cx="400" cy="650" r="26" class="table-body" />
+                            <text x="400" y="655" font-size="13" font-weight="bold" text-anchor="middle">10</text>
+                        </g>
+                        <g id="map-table-9" onclick="jumpToTable(9)" class="map-table-btn">
+                            <circle cx="465" cy="735" r="26" class="table-body" />
+                            <text x="465" y="740" font-size="13" font-weight="bold" text-anchor="middle">9</text>
+                        </g>
+
+                        <!-- Left Angling Column Tables (8, 7, 6, 5) -->
+                        <g id="map-table-8" onclick="jumpToTable(8)" class="map-table-btn">
+                            <circle cx="95" cy="300" r="26" class="table-body" />
+                            <text x="95" y="305" font-size="13" font-weight="bold" text-anchor="middle">8</text>
+                        </g>
+                        <g id="map-table-7" onclick="jumpToTable(7)" class="map-table-btn">
+                            <circle cx="165" cy="370" r="26" class="table-body" />
+                            <text x="165" y="375" font-size="13" font-weight="bold" text-anchor="middle">7</text>
+                        </g>
+                        <g id="map-table-6" onclick="jumpToTable(6)" class="map-table-btn">
+                            <circle cx="115" cy="455" r="26" class="table-body" />
+                            <text x="115" y="460" font-size="13" font-weight="bold" text-anchor="middle">6</text>
+                        </g>
+                        <g id="map-table-5" onclick="jumpToTable(5)" class="map-table-btn">
+                            <circle cx="175" cy="540" r="26" class="table-body" />
+                            <text x="175" y="545" font-size="13" font-weight="bold" text-anchor="middle">5</text>
+                        </g>
+
+                        <!-- Lower Left & Center Near Stage Tables (4, 3, 2) -->
+                        <g id="map-table-4" onclick="jumpToTable(4)" class="map-table-btn">
+                            <circle cx="100" cy="625" r="26" class="table-body" />
+                            <text x="100" y="630" font-size="13" font-weight="bold" text-anchor="middle">4</text>
+                        </g>
+                        <g id="map-table-3" onclick="jumpToTable(3)" class="map-table-btn">
+                            <circle cx="155" cy="700" r="26" class="table-body" />
+                            <text x="155" y="705" font-size="13" font-weight="bold" text-anchor="middle">3</text>
+                        </g>
+                        <g id="map-table-2" onclick="jumpToTable(2)" class="map-table-btn">
+                            <circle cx="95" cy="755" r="26" class="table-body" />
+                            <text x="95" y="760" font-size="13" font-weight="bold" text-anchor="middle">2</text>
+                        </g>
+
+                        <!-- VIP Table (Table 1) -->
+                        <g id="map-table-1" onclick="jumpToTable(1)" class="map-table-btn">
+                            <circle cx="285" cy="550" r="30" class="table-body" style="fill: #fef3c7; stroke: #d97706; stroke-width: 2.5px;" />
+                            <text x="285" y="555" font-size="12" font-weight="bold" fill="#92400e" text-anchor="middle">VIP (1)</text>
+                        </g>
+
+                        <!-- Bottom Stage & Backdrop Header -->
+                        <g>
+                            <rect x="200" y="735" width="170" height="22" fill="#d1d5db" stroke="#6b7280" stroke-width="1.5" rx="3" />
+                            <text x="285" y="750" fill="#1f2937" font-size="11" font-weight="bold" text-anchor="middle">Stage</text>
+                            
+                            <rect x="180" y="760" width="210" height="20" fill="#374151" rx="2" />
+                            <text x="285" y="774" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" letter-spacing="2">BACKDROP</text>
+                        </g>
+                    </svg>
                 </div>
-                <p class="text-xs text-stone-400 mt-4">💡 Tap any table on the map to jump directly to its guest assignments.</p>
+                <p class="text-xs text-stone-400 mt-4">💡 Tap any table circle on the layout above to jump directly to its guest details.</p>
             </div>
         </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer class="text-center py-8 text-xs text-stone-400 border-t border-stone-200 mt-12">
-        Thank you for celebrating with us &bull; Alex &amp; Jessica
+    <footer class="text-center py-10 text-xs text-stone-400 border-t border-stone-200 mt-12 font-serif italic tracking-wide">
+        Thank you for celebrating with us &bull; Zhi Yu &amp; Mimi
     </footer>
 
     <!-- JAVASCRIPT LOGIC & DATA -->
     <script>
-        // --- CUSTOMIZE YOUR GUEST & TABLE DATA HERE ---
         const seatingData = [
             {
                 tableNumber: 1,
-                tableName: "Table 1 (Family)",
-                guests: ["Robert Smith", "Mary Smith", "David Smith", "Sarah Johnson", "Michael Brown", "Emily Davis"]
+                tableName: "Table 1 (Main / VIP)",
+                guests: ["Bride", "Groom", "Bride Parent 1", "Bride Parent 2", "Groom Parent 1", "Groom Parent 2", "Bride 外婆", "Bride", "Groom外婆", "Groom大"]
             },
             {
                 tableNumber: 2,
-                tableName: "Table 2 (College Friends)",
-                guests: ["Chris Wilson", "Amanda Taylor", "James Anderson", "Jessica Thomas", "Daniel Jackson", "Laura White"]
+                tableName: "Table 2",
+                guests: ["大姑", "Pang Xiang", "Pang Xiang Wife", "Daughter 1", "Daughter 2", "二姑", "小姑", "小姑丈", "小姑孩子1", "小姑孩子2"]
             },
             {
                 tableNumber: 3,
-                tableName: "Table 3 (Work Colleagues)",
-                guests: ["Matthew Harris", "Ashley Martin", "Joshua Clark", "Megan Lewis", "Andrew Robinson", "Grace Walker"]
+                tableName: "Table 3",
+                guests: ["二姨", "KYC", "三姨", "三姨丈", "Zhi Xuan", "Zhi Qi", "小", "小姨丈", "Jun Yan", "Jun Yang"]
             },
             {
                 tableNumber: 4,
-                tableName: "Table 4 (Extended Family)",
-                guests: ["Brian Hall", "Rebecca Young", "Kevin Allen", "Samantha King", "Justin Wright", "Rachel Scott"]
+                tableName: "Table 4",
+                guests: ["小", "小舅母", "小 kakak", "Xuan Xuan", "Jarrett", "Emmannuel", "大母", "Ben", "妹妹", "Zhi Bin"]
+            },
+            {
+                tableNumber: 5,
+                tableName: "Table 5",
+                guests: ["四姑婆", "四姑婆", "四姑婆", "八姑婆", "四叔公", "四叔公", "四叔公", "粘丽萍", "粘丽萍"]
+            },
+            {
+                tableNumber: 6,
+                tableName: "Table 6",
+                guests: ["大哥", "大嫂", "BB", "李柳燕", "李柳燕", "kaihao", "kaihao gf", "John", "Christine"]
+            },
+            {
+                tableNumber: 7,
+                tableName: "Table 7",
+                guests: ["Spore 表姨", "Spore 表姨", "陈碧宜", "陈盒", "Tan Peik See", "Tan Peik See", "陈碧儿", "陈碧儿", "陈碧英", "陈碧英"]
+            },
+            {
+                tableNumber: 8,
+                tableName: "Table 8",
+                guests: ["Stephan Hill", "Stephan Hi", "Stephan Hill", "Stephan Hii", "Doris Hii", "Doris Hil", "婶妈", "Ah Soon"]
+            },
+            {
+                tableNumber: 9,
+                tableName: "Table 9",
+                guests: ["13aunty", "Wai Kin", "PePei", "SuTing Aunty", "SuTing Aunty", "Lim Yun Han", "Lim Yun Han", "Lim Yun Han", "Lim Yun Han", "Vegetarian aunty"]
+            },
+            {
+                tableNumber: 10,
+                tableName: "Table 10",
+                guests: ["Eddie Wong", "Sammie Sim", "Sammie Father", "Sammie Mother", "Sammie Brother", "二", "Lin Cheng", "Lin Cheng Wife", "小舅", "小母"]
+            },
+            {
+                tableNumber: 11,
+                tableName: "Table 11",
+                guests: ["大姑", "大姑丈", "Yu Heng", "Wei Xuan", "叔叔", "B婶", "Willard", "Mis", "Felicia", "Felicia Bf"]
+            },
+            {
+                tableNumber: 12,
+                tableName: "Table 12",
+                guests: ["Daddy", "Had Yuan", "Ah Mei", "Hac Wen", "公", "大表姨", "小表姨", "公", "図"]
+            },
+            {
+                tableNumber: 13,
+                tableName: "Table 13",
+                guests: ["Cormie", "Sit Yee", "Bee En", "Jia Pel", "Jia Pei Bf", "Jessy Leong", "Jessy Bf", "Chris Yow", "Tan Tai Hong", "Sze Roth"]
+            },
+            {
+                tableNumber: 14,
+                tableName: "Table 14",
+                guests: ["Jie Yee", "Ann Hao", "Chelsea", "Chew Toong", "Tiffany", "Lucas", "Brian", "Jing Jert", "Yao Sheng", "Yao Sheng Gf"]
+            },
+            {
+                tableNumber: 15,
+                tableName: "Table 15",
+                guests: ["Ennise Lim", "Jerrard", "Xue Minz", "Xue Minz Bf", "Lemenie", "Jia Fatt", "Rong", "Rong Bf", "Jun Hao", "Xiao Qi"]
+            },
+            {
+                tableNumber: 16,
+                tableName: "Table 16",
+                guests: ["Jessica Tan Gek Hong", "Tan Siew Teah", "Gary Pang", "Elise Khew", "Sandra Wang", "Tristan", "Cheryl Wong", "Darren Lim", "Aaron Tech", "Aaron Gf"]
+            },
+            {
+                tableNumber: 17,
+                tableName: "Table 17",
+                guests: ["Angie Ang", "Angie Bf", "Zhi Ling", "Jocelyn", "Kui Shan", "Bionn", "Jack Ying Jie", "Benjamin Leong", "Ting Teck Ling"]
+            },
+            {
+                tableNumber: 18,
+                tableName: "Table 18",
+                guests: ["Samuel Ong", "Eileen", "Owen Bong", "Shanice", "Samantha", "Hannah", "Tammy", "Ah Jing", "Chris", "Chris Wife"]
+            },
+            {
+                tableNumber: 19,
+                tableName: "Table 19",
+                guests: ["Chester", "Chester Gf", "Jason Sai", "Jason Gf", "Wenyun (U)", "Mel Khei (U)", "Zuo Ann (U)", "Lee Yi (U)", "Bryan (U)"]
+            },
+            {
+                tableNumber: 20,
+                tableName: "Table 20",
+                guests: ["Darkman (U)", "Darkman (U)", "Suh Haw (U)", "Suh Haw (U)", "Bao Xuan (U)", "Bao Xuan (U)", "Chah Wei (U)", "Khar Hang", "Jeff (M)"]
+            },
+            {
+                tableNumber: 21,
+                tableName: "Table 21",
+                guests: ["表 Family"]
             }
         ];
 
-        // Render Tables
         function renderSeating() {
             const container = document.getElementById('tablesContainer');
-            const gridContainer = document.getElementById('floorPlanGrid');
-            
             container.innerHTML = '';
-            gridContainer.innerHTML = '';
 
             seatingData.forEach(table => {
-                // Seating Cards
                 container.innerHTML += `
                     <div id="table-${table.tableNumber}" class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm transition hover:shadow-md">
                         <div class="flex justify-between items-center mb-4 pb-3 border-b border-stone-100">
                             <h3 class="font-serif text-lg text-stone-800 font-semibold">${table.tableName}</h3>
                             <span class="text-xs bg-rose-50 text-rose-700 px-2.5 py-1 rounded-full font-medium">${table.guests.length} Seats</span>
                         </div>
-                        <ul class="space-y-2">
-                            ${table.guests.map(guest => `<li class="text-sm text-stone-600 flex items-center"><span class="w-1.5 h-1.5 bg-rose-300 rounded-full mr-2.5"></span>${guest}</li>`).join('')}
+                        <ul class="space-y-1.5">
+                            ${table.guests.map((guest, idx) => `
+                                <li id="seat-${table.tableNumber}-${idx+1}" onclick="jumpToMap(${table.tableNumber})" class="text-sm text-stone-600 flex items-center justify-between p-2 rounded-lg transition hover:bg-rose-50 cursor-pointer group" title="Click to view on venue map">
+                                    <div class="flex items-center">
+                                        <span class="w-5 text-xs text-stone-400 font-mono">${idx+1}.</span>
+                                        <span class="w-1.5 h-1.5 bg-rose-300 rounded-full mr-2.5"></span>
+                                        <span class="font-medium text-stone-800 group-hover:text-rose-700">${guest}</span>
+                                    </div>
+                                    <span class="text-[10px] text-stone-300 group-hover:text-rose-500 uppercase tracking-wider font-medium">Map &rarr;</span>
+                                </li>
+                            `).join('')}
                         </ul>
                     </div>
-                `;
-
-                // Floor Plan Nodes
-                gridContainer.innerHTML += `
-                    <button onclick="jumpToTable(${table.tableNumber})" class="bg-white hover:bg-rose-50 border border-stone-300 hover:border-rose-300 p-4 rounded-full shadow-sm text-center transition group">
-                        <div class="text-xs font-semibold text-stone-700 group-hover:text-rose-700">Table ${table.tableNumber}</div>
-                        <div class="text-[10px] text-stone-400">${table.guests.length} Guests</div>
-                    </button>
                 `;
             });
         }
 
-        // Tab Switching
         function switchTab(tab) {
             const seatingTab = document.getElementById('seatingTab');
             const floorplanTab = document.getElementById('floorplanTab');
@@ -166,55 +450,104 @@
             if (tab === 'seating') {
                 seatingTab.classList.remove('hidden');
                 floorplanTab.classList.add('hidden');
-                tabSeating.className = "pb-3 px-6 text-sm font-medium border-b-2 border-stone-800 text-stone-900 transition";
-                tabFloorplan.className = "pb-3 px-6 text-sm font-medium border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition";
+                tabSeating.className = "pb-3 px-6 text-xs sm:text-sm font-medium tracking-wider uppercase border-b-2 border-stone-900 text-stone-900 transition";
+                tabFloorplan.className = "pb-3 px-6 text-xs sm:text-sm font-medium tracking-wider uppercase border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition";
             } else {
                 floorplanTab.classList.remove('hidden');
                 seatingTab.classList.add('hidden');
-                tabFloorplan.className = "pb-3 px-6 text-sm font-medium border-b-2 border-stone-800 text-stone-900 transition";
-                tabSeating.className = "pb-3 px-6 text-sm font-medium border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition";
+                tabFloorplan.className = "pb-3 px-6 text-xs sm:text-sm font-medium tracking-wider uppercase border-b-2 border-stone-900 text-stone-900 transition";
+                tabSeating.className = "pb-3 px-6 text-xs sm:text-sm font-medium tracking-wider uppercase border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition";
             }
         }
 
-        // Jump from Floor Plan to Table Card
+        function jumpToMap(tableNum) {
+            switchTab('floorplan');
+            document.querySelectorAll('.map-table-active').forEach(el => el.classList.remove('map-table-active'));
+            const mapBtn = document.getElementById(`map-table-${tableNum}`);
+            if (mapBtn) {
+                mapBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                mapBtn.classList.add('map-table-active');
+                setTimeout(() => mapBtn.classList.remove('map-table-active'), 4000);
+            }
+        }
+
+        function jumpToSeat(tableNum, seatIdx) {
+            switchTab('seating');
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('guestSearch').value = '';
+
+            const card = document.getElementById(`table-${tableNum}`);
+            const seat = document.getElementById(`seat-${tableNum}-${seatIdx}`);
+            
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.classList.add('highlight-card');
+                setTimeout(() => card.classList.remove('highlight-card'), 2600);
+            }
+            if (seat) {
+                seat.classList.add('highlight-seat', 'bg-rose-100');
+                setTimeout(() => seat.classList.remove('highlight-seat', 'bg-rose-100'), 3200);
+            }
+        }
+
         function jumpToTable(tableNum) {
             switchTab('seating');
-            const el = document.getElementById(`table-${tableNum}`);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                el.classList.add('ring-2', 'ring-rose-400');
-                setTimeout(() => el.classList.remove('ring-2', 'ring-rose-400'), 2000);
+            const card = document.getElementById(`table-${tableNum}`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.classList.add('highlight-card');
+                setTimeout(() => card.classList.remove('highlight-card'), 2600);
             }
         }
 
-        // Guest Search Logic
-        document.getElementById('guestSearch').addEventListener('input', function(e) {
+        const searchInput = document.getElementById('guestSearch');
+        const resultsDiv = document.getElementById('searchResults');
+
+        searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
-            const resultDiv = document.getElementById('searchResult');
+            resultsDiv.innerHTML = '';
             
             if (query.length < 2) {
-                resultDiv.innerHTML = '';
+                resultsDiv.classList.add('hidden');
                 return;
             }
 
-            let found = false;
-            for (let table of seatingData) {
-                for (let guest of table.guests) {
+            let matches = [];
+            seatingData.forEach(table => {
+                table.guests.forEach((guest, idx) => {
                     if (guest.toLowerCase().includes(query)) {
-                        resultDiv.innerHTML = `✨ <strong>${guest}</strong> is seated at <strong>${table.tableName}</strong>`;
-                        found = true;
-                        break;
+                        matches.push({ tableNum: table.tableNumber, tableName: table.tableName, guestName: guest, seatNo: idx + 1 });
                     }
-                }
-                if (found) break;
+                });
+            });
+
+            if (matches.length === 0) {
+                resultsDiv.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">No guest found matching "${e.target.value}"</div>`;
+                resultsDiv.classList.remove('hidden');
+                return;
             }
 
-            if (!found) {
-                resultDiv.innerHTML = `⚠️ No guest found matching "${e.target.value}". Check spelling or browse tables below.`;
+            matches.forEach(m => {
+                resultsDiv.innerHTML += `
+                    <div onclick="jumpToSeat(${m.tableNum}, ${m.seatNo})" 
+                         class="p-2.5 hover:bg-rose-50 rounded-xl cursor-pointer transition flex justify-between items-center text-xs border-b border-stone-100 last:border-none">
+                        <div>
+                            <span class="font-semibold text-stone-800">${m.guestName}</span>
+                            <span class="text-stone-400 block">${m.tableName} &bull; Seat #${m.seatNo}</span>
+                        </div>
+                        <span class="text-rose-600 font-medium underline">View Seat &rarr;</span>
+                    </div>
+                `;
+            });
+            resultsDiv.classList.remove('hidden');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !resultsDiv.contains(e.target)) {
+                resultsDiv.classList.add('hidden');
             }
         });
 
-        // Initialize on load
         window.onload = renderSeating;
     </script>
 </body>
