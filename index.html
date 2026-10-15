@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Seating Plan | Alex & Jessica</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #faf9f6;
+            color: #2c2c2c;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-rose-100 selection:text-rose-900">
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-4xl mx-auto px-4 py-12 w-full flex-grow">
+        
+        <!-- HEADER SECTION -->
+        <header class="text-center mb-12">
+            <h1 class="font-serif text-4xl sm:text-5xl font-normal tracking-wide text-stone-800">
+                Alex
+            </h1>
+            <div class="text-rose-400 font-serif italic text-lg my-2">and</div>
+            <h1 class="font-serif text-4xl sm:text-5xl font-normal tracking-wide text-stone-800">
+                Jessica
+            </h1>
+            
+            <div class="mt-4 inline-block border-b border-t border-stone-300 py-1 px-6 text-xs uppercase tracking-widest text-stone-500 font-medium">
+                Wedding Seating Plan &bull; October 18, 2026
+            </div>
+
+            <!-- QUICK SEARCH FOR GUESTS -->
+            <div class="mt-8 max-w-md mx-auto">
+                <div class="relative">
+                    <input type="text" id="guestSearch" placeholder="Search your name to find your table..." 
+                        class="w-full pl-10 pr-4 py-3 bg-white border border-stone-200 rounded-full text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition">
+                    <span class="absolute left-3.5 top-3.5 text-stone-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                </div>
+                <div id="searchResult" class="mt-3 text-sm text-rose-700 font-medium min-h-[24px]"></div>
+            </div>
+        </header>
+
+        <!-- TABS NAVIGATION -->
+        <div class="flex justify-center mb-8 border-b border-stone-200">
+            <button onclick="switchTab('seating')" id="tabSeating" class="pb-3 px-6 text-sm font-medium border-b-2 border-stone-800 text-stone-900 transition">
+                Guest Seating List
+            </button>
+            <button onclick="switchTab('floorplan')" id="tabFloorplan" class="pb-3 px-6 text-sm font-medium border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition">
+                Venue Floor Plan
+            </button>
+        </div>
+
+        <!-- TAB 1: SEATING PLAN -->
+        <section id="seatingTab" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tablesContainer">
+                <!-- Tables will be dynamically loaded via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 2: FLOOR PLAN MAP -->
+        <section id="floorplanTab" class="hidden space-y-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm text-center">
+                <h3 class="font-serif text-2xl text-stone-800 mb-2">Grand Ballroom Layout</h3>
+                <p class="text-stone-500 text-sm mb-8">Click any table below to view guest details.</p>
+
+                <!-- Visual Hall Grid -->
+                <div class="relative bg-stone-50 border-2 border-dashed border-stone-200 rounded-xl p-8 min-h-[400px] flex flex-col justify-between items-center">
+                    <!-- Stage -->
+                    <div class="w-1/2 bg-stone-800 text-stone-100 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest shadow-inner">
+                        Stage &amp; Sweetheart Table
+                    </div>
+
+                    <!-- Tables Layout -->
+                    <div class="grid grid-cols-3 gap-6 w-full max-w-lg my-12" id="floorPlanGrid">
+                        <!-- Floor plan nodes generated via JS -->
+                    </div>
+
+                    <div class="text-xs text-stone-400">Entrance &bull; Bar &bull; Dance Floor</div>
+                </div>
+                <p class="text-xs text-stone-400 mt-4">💡 Tap any table on the map to jump directly to its guest assignments.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-8 text-xs text-stone-400 border-t border-stone-200 mt-12">
+        Thank you for celebrating with us &bull; Alex &amp; Jessica
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & DATA -->
+    <script>
+        // --- CUSTOMIZE YOUR GUEST & TABLE DATA HERE ---
+        const seatingData = [
+            {
+                tableNumber: 1,
+                tableName: "Table 1 (Family)",
+                guests: ["Robert Smith", "Mary Smith", "David Smith", "Sarah Johnson", "Michael Brown", "Emily Davis"]
+            },
+            {
+                tableNumber: 2,
+                tableName: "Table 2 (College Friends)",
+                guests: ["Chris Wilson", "Amanda Taylor", "James Anderson", "Jessica Thomas", "Daniel Jackson", "Laura White"]
+            },
+            {
+                tableNumber: 3,
+                tableName: "Table 3 (Work Colleagues)",
+                guests: ["Matthew Harris", "Ashley Martin", "Joshua Clark", "Megan Lewis", "Andrew Robinson", "Grace Walker"]
+            },
+            {
+                tableNumber: 4,
+                tableName: "Table 4 (Extended Family)",
+                guests: ["Brian Hall", "Rebecca Young", "Kevin Allen", "Samantha King", "Justin Wright", "Rachel Scott"]
+            }
+        ];
+
+        // Render Tables
+        function renderSeating() {
+            const container = document.getElementById('tablesContainer');
+            const gridContainer = document.getElementById('floorPlanGrid');
+            
+            container.innerHTML = '';
+            gridContainer.innerHTML = '';
+
+            seatingData.forEach(table => {
+                // Seating Cards
+                container.innerHTML += `
+                    <div id="table-${table.tableNumber}" class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm transition hover:shadow-md">
+                        <div class="flex justify-between items-center mb-4 pb-3 border-b border-stone-100">
+                            <h3 class="font-serif text-lg text-stone-800 font-semibold">${table.tableName}</h3>
+                            <span class="text-xs bg-rose-50 text-rose-700 px-2.5 py-1 rounded-full font-medium">${table.guests.length} Seats</span>
+                        </div>
+                        <ul class="space-y-2">
+                            ${table.guests.map(guest => `<li class="text-sm text-stone-600 flex items-center"><span class="w-1.5 h-1.5 bg-rose-300 rounded-full mr-2.5"></span>${guest}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+
+                // Floor Plan Nodes
+                gridContainer.innerHTML += `
+                    <button onclick="jumpToTable(${table.tableNumber})" class="bg-white hover:bg-rose-50 border border-stone-300 hover:border-rose-300 p-4 rounded-full shadow-sm text-center transition group">
+                        <div class="text-xs font-semibold text-stone-700 group-hover:text-rose-700">Table ${table.tableNumber}</div>
+                        <div class="text-[10px] text-stone-400">${table.guests.length} Guests</div>
+                    </button>
+                `;
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            const seatingTab = document.getElementById('seatingTab');
+            const floorplanTab = document.getElementById('floorplanTab');
+            const tabSeating = document.getElementById('tabSeating');
+            const tabFloorplan = document.getElementById('tabFloorplan');
+
+            if (tab === 'seating') {
+                seatingTab.classList.remove('hidden');
+                floorplanTab.classList.add('hidden');
+                tabSeating.className = "pb-3 px-6 text-sm font-medium border-b-2 border-stone-800 text-stone-900 transition";
+                tabFloorplan.className = "pb-3 px-6 text-sm font-medium border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition";
+            } else {
+                floorplanTab.classList.remove('hidden');
+                seatingTab.classList.add('hidden');
+                tabFloorplan.className = "pb-3 px-6 text-sm font-medium border-b-2 border-stone-800 text-stone-900 transition";
+                tabSeating.className = "pb-3 px-6 text-sm font-medium border-b-2 border-transparent text-stone-400 hover:text-stone-700 transition";
+            }
+        }
+
+        // Jump from Floor Plan to Table Card
+        function jumpToTable(tableNum) {
+            switchTab('seating');
+            const el = document.getElementById(`table-${tableNum}`);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-rose-400');
+                setTimeout(() => el.classList.remove('ring-2', 'ring-rose-400'), 2000);
+            }
+        }
+
+        // Guest Search Logic
+        document.getElementById('guestSearch').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const resultDiv = document.getElementById('searchResult');
+            
+            if (query.length < 2) {
+                resultDiv.innerHTML = '';
+                return;
+            }
+
+            let found = false;
+            for (let table of seatingData) {
+                for (let guest of table.guests) {
+                    if (guest.toLowerCase().includes(query)) {
+                        resultDiv.innerHTML = `✨ <strong>${guest}</strong> is seated at <strong>${table.tableName}</strong>`;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+
+            if (!found) {
+                resultDiv.innerHTML = `⚠️ No guest found matching "${e.target.value}". Check spelling or browse tables below.`;
+            }
+        });
+
+        // Initialize on load
+        window.onload = renderSeating;
+    </script>
+</body>
+</html>
