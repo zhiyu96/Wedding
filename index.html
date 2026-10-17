@@ -6,6 +6,8 @@
     <title>Zhi Yu &amp; Mimi &bull; Wedding Seating Plan</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -23,13 +25,14 @@
             background-size: cover;
             background-position: center;
             border-radius: 2rem;
-            overflow: hidden;
         }
         .tulip-header-bg::before {
             content: "";
             position: absolute;
             inset: 0;
             background: linear-gradient(to bottom, rgba(250, 248, 245, 0.88), rgba(250, 248, 245, 0.95));
+            border-radius: 2rem;
+            z-index: 1;
         }
         .tulip-header-content {
             position: relative;
@@ -53,7 +56,7 @@
             animation: seat-flash 3s ease-in-out;
             border-radius: 6px;
         }
-        /* Smooth color-only hover (no aggressive movement/scaling) */
+        /* Smooth color-only hover */
         .map-table-btn {
             cursor: pointer;
         }
@@ -75,7 +78,7 @@
             fill: #9f1239 !important;
         }
         
-        /* Active Pulse Effect when redirected from guest name */
+        /* Active Pulse Effect */
         @keyframes map-active-pulse {
             0% { filter: drop-shadow(0 0 0px rgba(225, 29, 72, 0.9)); }
             50% { filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.9)); }
@@ -101,10 +104,10 @@
     <main class="max-w-5xl mx-auto px-4 py-8 w-full flex-grow">
         
         <!-- REDESIGNED TULIP HEADER SECTION -->
-        <header class="text-center mb-10 p-8 sm:p-12 tulip-header-bg shadow-sm border border-stone-200/60">
+        <header class="text-center mb-6 p-8 sm:p-12 tulip-header-bg shadow-sm border border-stone-200/60">
             <div class="tulip-header-content">
                 <p class="text-xs uppercase tracking-[0.3em] text-rose-600/90 font-medium mb-3">
-                    Wedding Participant List & Seating Directory
+                    Wedding Participation List &amp; Seating Directory
                 </p>
                 
                 <div class="inline-block relative">
@@ -127,23 +130,23 @@
                 </div>
 
                 <div class="text-xs uppercase tracking-[0.2em] text-stone-500 font-light">
-                    W Factory &bull; 14 November 2026
-                </div>
-
-                <!-- QUICK SEARCH FOR GUESTS -->
-                <div class="mt-8 max-w-md mx-auto relative z-30">
-                    <div class="relative">
-                        <input type="text" id="guestSearch" autocomplete="off" placeholder="Type your name to find your table &amp; seat..." 
-                            class="w-full pl-11 pr-4 py-3.5 bg-white/90 backdrop-blur-sm border border-stone-200 rounded-full text-xs sm:text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition text-stone-800 placeholder-stone-400">
-                        <span class="absolute left-4 top-4 text-stone-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </span>
-                    </div>
-                    <!-- Search Results Dropdown -->
-                    <div id="searchResults" class="absolute left-0 right-0 mt-2 bg-white border border-stone-200 rounded-2xl shadow-xl max-h-64 overflow-y-auto hidden text-left p-2 space-y-1"></div>
+                    W Factory &bull; 14 Nov 26 &bull; 7 PM
                 </div>
             </div>
         </header>
+
+        <!-- QUICK SEARCH FOR GUESTS -->
+        <div class="mb-10 max-w-md mx-auto relative z-50">
+            <div class="relative">
+                <input type="text" id="guestSearch" autocomplete="off" placeholder="Type your name to find your table &amp; seat..." 
+                    class="w-full pl-11 pr-4 py-3.5 bg-white border border-stone-200 rounded-full text-xs sm:text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent transition text-stone-800 placeholder-stone-400">
+                <span class="absolute left-4 top-4 text-stone-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+            </div>
+            <!-- Search Results Dropdown -->
+            <div id="searchResults" class="absolute left-0 right-0 mt-2 bg-white border border-stone-200 rounded-2xl shadow-xl max-h-64 overflow-y-auto hidden text-left p-2 space-y-1"></div>
+        </div>
 
         <!-- TABS NAVIGATION -->
         <div class="flex justify-center mb-8 border-b border-stone-200">
@@ -309,107 +312,107 @@
             {
                 tableNumber: 1,
                 tableName: "Table 1 (Main / VIP)",
-                guests: ["Bride", "Groom", "Bride Parent 1", "Bride Parent 2", "Groom Parent 1", "Groom Parent 2", "Bride 外婆", "Bride", "Groom外婆", "Groom大"]
+                guests: ["Bride", "Groom", "Bride Parent 1", "Bride Parent 2", "Groom Parent 1", "Groom Parent 2", "Bride 外婆", "Bride 婆婆", "Groom 外婆", "Groom 大舅"]
             },
             {
                 tableNumber: 2,
                 tableName: "Table 2",
-                guests: ["大姑", "Pang Xiang", "Pang Xiang Wife", "Daughter 1", "Daughter 2", "二姑", "小姑", "小姑丈", "小姑孩子1", "小姑孩子2"]
+                guests: ["Groom 大姑", "Pang Xiang", "Pang Xiang", "Pang Xiang", "Pang Xiang", "Groom 二姑", "Groom 小姑", "Groom 小姑", "Groom 小姑", "Groom 小姑"]
             },
             {
                 tableNumber: 3,
                 tableName: "Table 3",
-                guests: ["二姨", "KYC", "三姨", "三姨丈", "Zhi Xuan", "Zhi Qi", "小", "小姨丈", "Jun Yan", "Jun Yang"]
+                guests: ["Groom 二姨", "KYC", "Groom 三姨", "三姨", "三姨", "三姨", "Groom 小姨", "Groom 小姨", "Groom 小姨", "Groom 小姨"]
             },
             {
                 tableNumber: 4,
                 tableName: "Table 4",
-                guests: ["小", "小舅母", "小 kakak", "Xuan Xuan", "Jarrett", "Emmannuel", "大母", "Ben", "妹妹", "Zhi Bin"]
+                guests: ["Groom 小舅", "Groom 小舅", "Groom 小舅", "Groom 小舅", "Groom 小舅", "Groom 小舅", "Groom 大舅母", "Groom 大舅母", "Groom 大舅母", "Zhi Bin"]
             },
             {
                 tableNumber: 5,
                 tableName: "Table 5",
-                guests: ["四姑婆", "四姑婆", "四姑婆", "八姑婆", "四叔公", "四叔公", "四叔公", "粘丽萍", "粘丽萍"]
+                guests: ["Spore 表姨", "Spore 表姨", "陈碧鸾", "陈碧鸾", "Tan Peik See", "Tan Peik See", "陈碧儿", "陈碧儿", "陈碧英", "陈碧英"]
             },
             {
                 tableNumber: 6,
                 tableName: "Table 6",
-                guests: ["大哥", "大嫂", "BB", "李柳燕", "李柳燕", "kaihao", "kaihao gf", "John", "Christine"]
+                guests: ["Jyh Chyuan", "Jyh Chyuan", "Jyh Chyuan", "李柳燕", "李柳燕", "kaihao (75)", "kaihao gf (75)", "John (75)", "Christine (75)"]
             },
             {
                 tableNumber: 7,
                 tableName: "Table 7",
-                guests: ["Spore 表姨", "Spore 表姨", "陈碧宜", "陈盒", "Tan Peik See", "Tan Peik See", "陈碧儿", "陈碧儿", "陈碧英", "陈碧英"]
+                guests: ["四姑婆", "四姑婆", "四姑婆", "八姑婆", "四叔公", "四叔公", "四叔公", "粘丽萍", "粘丽萍"]
             },
             {
                 tableNumber: 8,
                 tableName: "Table 8",
-                guests: ["Stephan Hill", "Stephan Hi", "Stephan Hill", "Stephan Hii", "Doris Hii", "Doris Hil", "婶妈", "Ah Soon"]
+                guests: ["思思 Aunty", "Wai Kin", "PeiPei", "SuTing Aunty", "SuTing Aunty", "Lim Yun Han", "Lim Yun Han", "Lim Yun Han", "Lim Yun Han", "淑渝 Aunty"]
             },
             {
                 tableNumber: 9,
                 tableName: "Table 9",
-                guests: ["13aunty", "Wai Kin", "PePei", "SuTing Aunty", "SuTing Aunty", "Lim Yun Han", "Lim Yun Han", "Lim Yun Han", "Lim Yun Han", "Vegetarian aunty"]
+                guests: ["Bride 小姑", "Bride 小姑", "Hao Yuan", "Ah Mei", "Hao Wen", "姨公", "大表姨", "小表姨", "舅公", "舅婆"]
             },
             {
                 tableNumber: 10,
                 tableName: "Table 10",
-                guests: ["Eddie Wong", "Sammie Sim", "Sammie Father", "Sammie Mother", "Sammie Brother", "二", "Lin Cheng", "Lin Cheng Wife", "小舅", "小母"]
+                guests: ["Bride 大姑", "Bride 大姑丈", "Yu Heng", "Wei Xuan", "叔叔", "婶婶", "Willard", "Mia", "Felicia", "Felicia Bf"]
             },
             {
                 tableNumber: 11,
                 tableName: "Table 11",
-                guests: ["大姑", "大姑丈", "Yu Heng", "Wei Xuan", "叔叔", "B婶", "Willard", "Mis", "Felicia", "Felicia Bf"]
+                guests: ["Eddie Wong", "Sammie Sim", "Sammie Father", "Sammie Mother", "Sammie Brother", "Bride 二舅", "Lin Cheng", "Lin Cheng Wife", "Bride 小舅", "Bride 小舅"]
             },
             {
                 tableNumber: 12,
                 tableName: "Table 12",
-                guests: ["Daddy", "Had Yuan", "Ah Mei", "Hac Wen", "公", "大表姨", "小表姨", "公", "図"]
+                guests: ["表舅","表舅","表舅","表舅","表舅","表舅","表舅","表舅","表舅","表舅"]
             },
             {
                 tableNumber: 13,
                 tableName: "Table 13",
-                guests: ["Cormie", "Sit Yee", "Bee En", "Jia Pel", "Jia Pei Bf", "Jessy Leong", "Jessy Bf", "Chris Yow", "Tan Tai Hong", "Sze Roth"]
+                guests: ["Cornie", "Sit Yee", "Bee En", "Jia Pei", "Jia Pei Bf", "Jessy Leong", "Jessy Bf", "Chris Yow", "Tan Tai Hong", "Sze Roth"]
             },
             {
                 tableNumber: 14,
                 tableName: "Table 14",
-                guests: ["Jie Yee", "Ann Hao", "Chelsea", "Chew Toong", "Tiffany", "Lucas", "Brian", "Jing Jert", "Yao Sheng", "Yao Sheng Gf"]
+                guests: ["Stephan Hii", "Stephan Hii", "Stephan Hii", "Stephan Hii", "Doris Hii", "Doris Hii", "婶妈", "Ah Soon"]
             },
             {
                 tableNumber: 15,
                 tableName: "Table 15",
-                guests: ["Ennise Lim", "Jerrard", "Xue Minz", "Xue Minz Bf", "Lemenie", "Jia Fatt", "Rong", "Rong Bf", "Jun Hao", "Xiao Qi"]
+                guests: ["Jie Yee", "Ann Hao", "Chelsea", "Chew Toong", "Tiffany", "Lucas", "Brian", "Jing Jert", "Yao Sheng", "Yao Sheng Gf"]
             },
             {
                 tableNumber: 16,
                 tableName: "Table 16",
-                guests: ["Jessica Tan Gek Hong", "Tan Siew Teah", "Gary Pang", "Elise Khew", "Sandra Wang", "Tristan", "Cheryl Wong", "Darren Lim", "Aaron Tech", "Aaron Gf"]
+                guests: ["Ennise Lim", "Jerrard", "Xue Minz", "Xue Minz Bf", "Lemenie", "Jia Fatt", "Rong", "Rong Gf", "Jun Hao", "Xiao Qi"]
             },
             {
                 tableNumber: 17,
                 tableName: "Table 17",
-                guests: ["Angie Ang", "Angie Bf", "Zhi Ling", "Jocelyn", "Kui Shan", "Bionn", "Jack Ying Jie", "Benjamin Leong", "Ting Teck Ling"]
+                guests: ["Darkman", "Darkman", "Suh Haw", "Suh Haw", "Bao Xuan", "Bao Xuan", "Chah Wei", "Khar Hang", "Jeff"]
             },
             {
                 tableNumber: 18,
                 tableName: "Table 18",
-                guests: ["Samuel Ong", "Eileen", "Owen Bong", "Shanice", "Samantha", "Hannah", "Tammy", "Ah Jing", "Chris", "Chris Wife"]
+                guests: ["Chester", "Chester Gf", "Jason Sai", "Jason Gf", "Wenyun", "Mei Khei", "Zuo Ann", "Lee Yi", "Bryan"]
             },
             {
                 tableNumber: 19,
                 tableName: "Table 19",
-                guests: ["Chester", "Chester Gf", "Jason Sai", "Jason Gf", "Wenyun (U)", "Mel Khei (U)", "Zuo Ann (U)", "Lee Yi (U)", "Bryan (U)"]
+                guests: ["Samuel Ong", "Eileen", "Owen Bong", "Shanice", "Samantha", "Hannah", "Tammy", "Ah Jing", "Chris", "Chris Wife"]
             },
             {
                 tableNumber: 20,
                 tableName: "Table 20",
-                guests: ["Darkman (U)", "Darkman (U)", "Suh Haw (U)", "Suh Haw (U)", "Bao Xuan (U)", "Bao Xuan (U)", "Chah Wei (U)", "Khar Hang", "Jeff (M)"]
+                guests: ["Jessica Tan Gek Hong", "Tan Siew Teah", "Gary Pang", "Elise Khew", "Sandra Wang", "Tristan", "Cheryl Wong", "Darren Lim", "Aaron Teoh", "Aaron Gf"]
             },
             {
                 tableNumber: 21,
                 tableName: "Table 21",
-                guests: ["表 Family"]
+                guests: ["Angie Ang", "Angie Bf", "Zhi Ling", "Jocelyn", "Kui Shan", "Bionn", "Jack Ying Jie", "Benjamin Leong", "Ting Teck Ling"]
             }
         ];
 
@@ -507,7 +510,8 @@
             const query = e.target.value.toLowerCase().trim();
             resultsDiv.innerHTML = '';
             
-            if (query.length < 2) {
+            // Allow single-character search (removed length < 2 check)
+            if (query.length === 0) {
                 resultsDiv.classList.add('hidden');
                 return;
             }
@@ -548,7 +552,33 @@
             }
         });
 
-        window.onload = renderSeating;
+        // Trigger 3-Second Automatic Welcome Confetti on Page Load
+        function startWelcomeConfetti() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 40 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#e11d48', '#fb7185', '#d97706', '#fef3c7'] });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#e11d48', '#fb7185', '#d97706', '#fef3c7'] });
+            }, 250);
+        }
+
+        window.onload = function() {
+            renderSeating();
+            startWelcomeConfetti();
+        };
     </script>
 </body>
 </html>
